@@ -1,10 +1,6 @@
 ﻿using Domain;
 using Domain.States;
-using Microsoft.Extensions.Logging;
 using OneOf;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Commands
@@ -12,15 +8,20 @@ namespace Application.Commands
     public class CreateUserCommandHandler : ICreateUserCommandHandler
     {
         private IUserRepository _userRepository;
-        public CreateUserCommandHandler(ILogger<CreateUserCommandHandler> logger, IUserRepository userRepository)
+        public CreateUserCommandHandler( IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
 
-        public Task<OneOf<UserCreated, UserAlreadyExist>> HandleAsync(CreateUserCommand request)
+        public async Task<OneOf<UserCreated, UserAlreadyExist>> HandleAsync(CreateUserCommand request)
         {
-            throw new NotImplementedException();
+
+            var user = User.Create(request.UserName, request.FistName, request.LastName, request.Email);
+            var status = await _userRepository.CheckIfUserExist(user);
+            if (status) _ = _userRepository.AddUserAsync(user);
+            else return new UserAlreadyExist();
+            return new UserCreated();
         }
     }
 }
