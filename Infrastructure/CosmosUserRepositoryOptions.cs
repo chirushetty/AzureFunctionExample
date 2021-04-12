@@ -6,6 +6,10 @@ namespace Infrastructure
 {
     public class CosmosUserRepositoryOptions
     {
+        public CosmosUserRepositoryOptions()
+        {
+
+        }
         public CosmosUserRepositoryOptions(string accountEndpoint, string accountKey, string databaseName)
         {
             AccountEndpoint = accountEndpoint;
