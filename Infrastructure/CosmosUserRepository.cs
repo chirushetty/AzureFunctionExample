@@ -1,7 +1,9 @@
 ﻿using Domain;
 using Domain.States;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace Infrastructure
 {
     public class CosmosUserRepository : IUserRepository
     {
-        private DatabaseContext _context { get; set; }
+        private DatabaseContext _context;
         public CosmosUserRepository(DatabaseContext context)
         {
             _context = context;
@@ -23,9 +25,11 @@ namespace Infrastructure
             //return new UserCreated();
         }
 
-        public Task<bool> CheckIfUserExist(User user)
+        public async Task<bool> CheckIfUserExist(GenericSpecification<User> query)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.Where(query.Expression).ToListAsync();
+
+           return user == null ? true : false;
         }
     }
 }

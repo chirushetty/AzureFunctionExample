@@ -1,4 +1,6 @@
 ﻿using Application;
+using AzureFunctionExample;
+using Infrastructure;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -6,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
+[assembly: FunctionsStartup(typeof(Startup))]
 namespace AzureFunctionExample
 {
     public class Startup : FunctionsStartup
@@ -24,7 +27,8 @@ namespace AzureFunctionExample
                 .AddMvcCore();
 
             services.AddApplication();
-            //services.AddInfrastructure();
+            //services.Add
+            services.AddInfrastructure();
         }
     }
 }

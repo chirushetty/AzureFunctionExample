@@ -20,6 +20,11 @@ namespace AzureFunctionExample
     {
         public ICreateUserCommandHandler _commandHandler { get; set; }
 
+        public CreateUserFunction(ICreateUserCommandHandler commandHandler, IServiceProvider serviceProvider)         
+        {
+            _commandHandler = commandHandler;
+        }
+
         [FunctionName(nameof(CreateUserFunction))]
         [Description("")]
         //[SwaggerQueryParameter("")]
@@ -31,17 +36,17 @@ namespace AzureFunctionExample
             CancellationToken ct = default)
         {
 
-            var body = await req.GetBodyAsync<CreateUserRequest>();
-            if (!body.IsValid)
-            {
-                return new BadRequestResult();
-            }
+            //var body = await req.GetBodyAsync<CreateUserRequest>();
+            //if (!body.IsValid)
+            //{
+            //    return new BadRequestResult();
+            //}
             //return await InvokeAsync(req, async cancellationToken =>
             //{
             //    var request = await 
             //});
             var email = req.Query["email"];
-            var firstName = req.Query["fistname"];
+            var firstName = req.Query["firstname"];
             var lastname = req.Query["lastname"];
             DateTime.TryParse(req.Query["dob"], out DateTime dob);
 
@@ -51,7 +56,7 @@ namespace AzureFunctionExample
             //    Email = email
             //}) ;
             var command = new CreateUserCommand(userName, firstName, lastname, email, dob);
-            var responseMessage = _commandHandler.HandleAsync(command);
+            var responseMessage = await _commandHandler.HandleAsync(command);
             return new OkObjectResult(responseMessage);
         }
     }

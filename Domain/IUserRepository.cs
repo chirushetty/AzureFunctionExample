@@ -7,7 +7,7 @@ namespace Domain
 {
     public interface IUserRepository
     {
-        Task<bool> CheckIfUserExist(User user);
+        Task<bool> CheckIfUserExist(GenericSpecification<User> query);
         Task AddUserAsync(User user);
     }
 }

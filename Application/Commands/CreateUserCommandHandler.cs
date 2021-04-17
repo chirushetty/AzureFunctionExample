@@ -7,7 +7,7 @@ namespace Application.Commands
 {
     public class CreateUserCommandHandler : ICreateUserCommandHandler
     {
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         public CreateUserCommandHandler( IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -18,7 +18,8 @@ namespace Application.Commands
         {
 
             var user = User.Create(request.UserName, request.FistName, request.LastName, request.Email);
-            var status = await _userRepository.CheckIfUserExist(user);
+            var CheckUserExistSpecification = new CheckUserExistSpecification(user);
+            var status = await _userRepository.CheckIfUserExist(CheckUserExistSpecification);
             if (status) _ = _userRepository.AddUserAsync(user);
             else return new UserAlreadyExist();
             return new UserCreated();
