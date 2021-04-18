@@ -12,8 +12,10 @@ namespace Infrastructure
         private readonly CosmosUserRepositoryOptions _option;
 
         public DatabaseContext(IOptions<CosmosUserRepositoryOptions> opions, DbContextOptions<DatabaseContext> dbOption)
+            :base(dbOption)
         {
             _option = opions.Value;
+            Database.EnsureCreatedAsync().GetAwaiter().GetResult();
         }
 
         public DbSet<User> Users { get; set; }

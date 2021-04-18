@@ -32,7 +32,14 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddEntityFrameworkCosmos()
-                .AddDbContext<DatabaseContext>();
+                .AddDbContext<DatabaseContext>((sp, builder) =>
+                {
+                    if (sp.GetRequiredService<IHostEnvironment>().IsDevelopment()) 
+                    {
+                        builder.EnableDetailedErrors();
+                        builder.EnableSensitiveDataLogging();
+                    }
+                });
             services.AddScoped<IUserRepository, CosmosUserRepository>();
             return services;
         }

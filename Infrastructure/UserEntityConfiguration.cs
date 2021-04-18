@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Infrastructure
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.UserName).IsRequired();
             builder.HasPartitionKey(x => x.UserName);
+            builder.Property(x => x.UserId).HasValueGenerator<GuidValueGenerator>();
             //builder.OwnsMany( user => user.);
         }
     }

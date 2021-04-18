@@ -20,7 +20,7 @@ namespace Application.Commands
             var user = User.Create(request.UserName, request.FistName, request.LastName, request.Email);
             var CheckUserExistSpecification = new CheckUserExistSpecification(user);
             var status = await _userRepository.CheckIfUserExist(CheckUserExistSpecification);
-            if (status) _ = _userRepository.AddUserAsync(user);
+            if (!status) _ = _userRepository.AddUserAsync(user);
             else return new UserAlreadyExist();
             return new UserCreated();
         }
