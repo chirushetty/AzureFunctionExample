@@ -29,7 +29,7 @@ namespace Infrastructure
         {
             var user = await _context.Users.Where(query.Expression).ToListAsync();
 
-           return user == null ? true : false;
+           return user.Count != 0 ? true : false;
         }
     }
 }

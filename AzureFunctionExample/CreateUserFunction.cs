@@ -13,6 +13,7 @@ using AzureFunctionExample.Models;
 using NSwag.Annotations;
 using NSwag.Collections;
 using Domain;
+using Domain.States;
 
 namespace AzureFunctionExample
 {
@@ -41,10 +42,7 @@ namespace AzureFunctionExample
             //{
             //    return new BadRequestResult();
             //}
-            //return await InvokeAsync(req, async cancellationToken =>
-            //{
-            //    var request = await 
-            //});
+             
             var email = req.Query["email"];
             var firstName = req.Query["firstname"];
             var lastname = req.Query["lastname"];
@@ -57,9 +55,12 @@ namespace AzureFunctionExample
             //}) ;
             var command = new CreateUserCommand(userName, firstName, lastname, email, dob);
             var responseMessage = await _commandHandler.HandleAsync(command);
-            return new OkObjectResult(responseMessage);
+            var val = 1;
+
+            return responseMessage.Match<IActionResult>(
+                 userCreated => new OkObjectResult(userCreated),
+                 userAlreadyExit => new ConflictResult()
+                );
         }
     }
-
-    //protected internal IA
 }
