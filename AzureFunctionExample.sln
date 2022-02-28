@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{BDDCBA2B-1D15-47D7-B26D-F1E8C679A087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj", "{F35DA0B7-0746-455D-8BCA-F5B43CEFE138}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Infra\Infra.csproj", "{F35DA0B7-0746-455D-8BCA-F5B43CEFE138}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionSimpleDatabaseExample", "AzureFunctionSimpleDatabaseExample\AzureFunctionSimpleDatabaseExample.csproj", "{0955DC9F-CB2F-4915-92A6-EBE31F7ACB3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F35DA0B7-0746-455D-8BCA-F5B43CEFE138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F35DA0B7-0746-455D-8BCA-F5B43CEFE138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35DA0B7-0746-455D-8BCA-F5B43CEFE138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0955DC9F-CB2F-4915-92A6-EBE31F7ACB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0955DC9F-CB2F-4915-92A6-EBE31F7ACB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0955DC9F-CB2F-4915-92A6-EBE31F7ACB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0955DC9F-CB2F-4915-92A6-EBE31F7ACB3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
