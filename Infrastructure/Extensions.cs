@@ -31,6 +31,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddScoped<IUserRepository, CosmosUserRepository>();
             services.AddEntityFrameworkCosmos()
                 .AddDbContext<DatabaseContext>((sp, builder) =>
                 {
@@ -40,7 +41,7 @@ namespace Infrastructure
                         builder.EnableSensitiveDataLogging();
                     }
                 });
-            services.AddScoped<IUserRepository, CosmosUserRepository>();
+            
             return services;
         }
     }
