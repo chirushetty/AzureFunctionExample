@@ -37,22 +37,11 @@ namespace AzureFunctionExample
             CancellationToken ct = default)
         {
 
-            //var body = await req.GetBodyAsync<CreateUserRequest>();
-            //if (!body.IsValid)
-            //{
-            //    return new BadRequestResult();
-            //}
-             
             var email = req.Query["email"];
             var firstName = req.Query["firstname"];
             var lastname = req.Query["lastname"];
             DateTime.TryParse(req.Query["dob"], out DateTime dob);
 
-            //using var logScope = log.BeginScopeWith(new
-            //{
-            //    UserName = userName,
-            //    Email = email
-            //}) ;
             var command = new CreateUserCommand(userName, firstName, lastname, email, dob);
             var responseMessage = await _commandHandler.HandleAsync(command);
             var val = 1;
