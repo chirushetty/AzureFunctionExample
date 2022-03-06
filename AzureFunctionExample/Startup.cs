@@ -9,38 +9,53 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using AzureFunctionExample.Helpers;
+using Domain;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace AzureFunctionExample
 {
     public class Startup : FunctionsStartup
     {
+        
+
+        public IConfiguration Configuration { get; set; }
+
         public override void Configure(IFunctionsHostBuilder builder) => ConfigureServices(builder.Services);
 
         private void ConfigureServices(IServiceCollection services)
         {
+            var builder = services.BuildServiceProvider();
+            Configuration = builder.GetRequiredService<IConfiguration>();
+            var val = Configuration["APPINSIGHT_INSTRUMENTATIONKEY"];
             services.AddLogging();
 
-            //services
-            //    .AddJsonStreamSerializer(new JsonSerializerOptions()
-            //    {
-            //    });
+            
             services
                 .AddMvcCore();
 
             services.AddApplication();
-            //services.Add
-            services.AddInfrastructure()
-                .AddOptions<CosmosUserRepositoryOptions>()
-                .Configure<IConfiguration, ILogger<Startup>>((options, configuration, logger) =>
+
+
+            services.AddOptions<DependenciesHealthCheck>()
+                .Configure(s =>
                 {
-                    var optionsTypeName = options.GetType().Name;
-                    var (endpoint, key) = ExtractFromConnnectionString(configuration["CosmosDb::ConnectionString::Secret"]);
+                    s.CheckAsync();
+                });
+
+            services.AddScoped<IHealthCheck, DependenciesHealthCheck>();
+            services.AddOptions<CosmosUserRepositoryOptions>()
+                .Configure(options =>
+                {
+                    var (endpoint, key) =
+                        ExtractFromConnnectionString(Configuration["CosmosDb::ConnectionString::Secret"]);
+                    var databaseName = Configuration["CosmosDb::Database::Name"];
                     options.AccountEndpoint = endpoint;
                     options.AccountKey = key;
-                    options.DatabaseName = configuration["CosmosDb::Database::Name"];
-                })
-                ;
+                    options.DatabaseName = databaseName;
+                });
+
+            services.AddInfrastructure();
         }
 
         private (string endpoint, string key) ExtractFromConnnectionString(string connectionString)
